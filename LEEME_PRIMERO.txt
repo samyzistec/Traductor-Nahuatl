@@ -1,0 +1,65 @@
+================================================================================
+  CARPETA LIMPIA - LISTA PARA GOOGLE COLAB
+================================================================================
+
+Esta carpeta contiene ÚNICAMENTE los archivos esenciales para entrenar
+el modelo traductor Náhuatl-Español en Google Colab.
+
+✅ Qué contiene:
+  ✓ Notebook optimizado (TRAIN_NLLB_v3_OPTIMIZED.ipynb)
+  ✓ Corpus completo (14,479 pares - 11,583 train)
+  ✓ Scripts para Hugging Face Space
+  ✓ README.md principal
+  ✓ Instrucciones rápidas
+
+❌ Qué NO contiene:
+  ✗ Archivos .md adicionales (guías, documentación extra)
+  ✗ Scripts legacy o antiguos
+  ✗ Archivos temporales
+  ✗ Documentación extensa
+
+================================================================================
+📦 ESTRUCTURA:
+================================================================================
+
+Proyecto-Traductor-COLAB/
+├── README.md                              ← Documentación principal
+├── INSTRUCCIONES_RAPIDAS.txt             ← Lee esto para empezar
+├── notebooks/
+│   └── TRAIN_NLLB_v3_OPTIMIZED.ipynb    ← Sube a Colab
+├── data/
+│   └── train_test_splits/
+│       ├── train.jsonl       (11,583 pares - 5.0 MB)
+│       ├── validation.jsonl  (1,447 pares - 610 KB)
+│       └── test.jsonl        (1,449 pares - 610 KB)
+└── huggingface_space/
+    ├── app.py                            ← App del Space
+    ├── requirements.txt
+    ├── upload_model_to_hf.py            ← Script para subir modelo
+    └── verify_model_before_upload.py    ← Script de verificación
+
+================================================================================
+🎯 PRÓXIMOS PASOS:
+================================================================================
+
+1. Abre: INSTRUCCIONES_RAPIDAS.txt
+2. Sube el corpus a Google Drive
+3. Sube el notebook a Google Colab
+4. ¡Entrena el modelo!
+
+Tiempo estimado: ~4.5-5 horas en GPU A100
+
+================================================================================
+✨ MEJORAS VS VERSIÓN ANTERIOR:
+================================================================================
+
+✓ Corpus 2.7x más grande (14,479 vs 5,344 pares)
+✓ 6 epochs de entrenamiento (vs 3)
+✓ Learning rate optimizado con cosine decay
+✓ Regularización (weight decay 0.01)
+✓ Sin errores de compilación (sentencepiece==0.2.0)
+
+Resultado esperado: ~20-25% mejora en precisión de traducción
+
+================================================================================
+

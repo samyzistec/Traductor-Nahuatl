@@ -1,0 +1,94 @@
+================================================================================
+INSTRUCCIONES RÁPIDAS - PROYECTO TRADUCTOR NÁHUATL-ESPAÑOL
+================================================================================
+
+Esta carpeta contiene SOLO los archivos esenciales para entrenar el modelo.
+
+📁 CONTENIDO:
+  - notebooks/TRAIN_NLLB_v3_OPTIMIZED.ipynb  → Notebook para entrenar en Colab
+  - data/train_test_splits/                   → Corpus (11,583 pares train)
+  - huggingface_space/                         → Archivos para el Space
+  - README.md                                  → Documentación principal
+
+================================================================================
+🚀 PASOS RÁPIDOS:
+================================================================================
+
+1. SUBIR CORPUS A GOOGLE DRIVE
+   ---------------------------------
+   Sube los 3 archivos de data/train_test_splits/ a Google Drive:
+   
+   Google Drive/
+   └── nahuatl_corpus_v3/
+       ├── train.jsonl        (11,583 pares)
+       ├── validation.jsonl   (1,447 pares)
+       └── test.jsonl         (1,449 pares)
+
+2. ENTRENAR EN GOOGLE COLAB
+   ---------------------------------
+   a) Sube notebooks/TRAIN_NLLB_v3_OPTIMIZED.ipynb a Colab
+   b) Runtime → Change runtime type → A100 High-RAM
+   c) Ejecuta TODAS las celdas en orden
+   d) Espera ~4.5-5 horas
+   e) El modelo final estará en:
+      /content/drive/MyDrive/nllb-ncx-es-v3-FINAL-6epochs
+
+3. SUBIR MODELO A HUGGING FACE
+   ---------------------------------
+   En Colab, después del entrenamiento, ejecuta:
+   
+   !pip install huggingface_hub
+   
+   from huggingface_hub import login, HfApi
+   login()  # Pega tu token
+   
+   api = HfApi()
+   api.upload_folder(
+       folder_path="/content/drive/MyDrive/nllb-ncx-es-v3-FINAL-6epochs",
+       repo_id="TU-USUARIO/nllb-ncx-es-v3",
+       repo_type="model",
+       commit_message="Modelo mejorado - 14,479 pares, 6 epochs"
+   )
+
+4. ACTUALIZAR HUGGING FACE SPACE
+   ---------------------------------
+   El Space se actualizará automáticamente con el nuevo modelo.
+   Espera 1-2 minutos y prueba la traducción.
+
+================================================================================
+📊 CORPUS ACTUALIZADO:
+================================================================================
+
+Total: 14,479 pares (2.7x más que antes)
+  - Axolotl + Tatoeba: 9,156 pares (63.1%) - Literario
+  - JW.org: 5,357 pares (36.9%) - Religioso
+
+Splits:
+  - Train: 11,583 pares (80%)
+  - Validation: 1,447 pares (10%)
+  - Test: 1,449 pares (10%)
+
+================================================================================
+⚠️ IMPORTANTE:
+================================================================================
+
+- El entrenamiento toma ~4.5-5 horas en GPU A100
+- NO cierres el runtime de Colab durante el entrenamiento
+- El modelo final ocupará ~2.6 GB en Google Drive
+- Se usa sentencepiece==0.2.0 (sin errores de compilación)
+
+================================================================================
+✅ MEJORAS EN ESTE ENTRENAMIENTO:
+================================================================================
+
+1. Corpus 2.7x más grande (14,479 vs 5,344 pares)
+2. 6 epochs (vs 3 anterior)
+3. Learning rate 3e-5 con cosine decay
+4. Weight decay 0.01 (regularización)
+5. Warmup de 800 steps
+6. Evaluación cada 400 steps
+
+Resultado esperado: ~20-25% mejora en precisión
+
+================================================================================
+
