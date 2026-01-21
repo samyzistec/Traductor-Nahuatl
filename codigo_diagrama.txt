@@ -1,0 +1,44 @@
+@startuml
+title Metodología CRISP-DM con Transfer Learning (mBERT) para Español-Náhuatl
+
+skinparam ParticipantPadding 20
+skinparam BoxPadding 10
+
+partition "Fase I: Comprensión del Negocio/Comprensión del Problema" {
+    :Definir KPi (Traducción con preservación semántica);
+    :Análisis de viabilidad para lenguas aglutinantes;
+}
+
+partition "Fase II & III: Comprensión y Preparación de los Datos" {
+    :Alineación de oraciones (Sentence Alignment);
+    :Normalización ortográfica (Náhuatl Clásico vs Moderno);
+    note right: Crucial para reducir el ruido en los embeddings de mBERT
+    :Tokenización basada en WordPiece (Subword units);
+}
+
+partition "Fase IV: Modelado (El enfoque mBERT)" {
+    :Inicialización de pesos con 'bert-base-multilingual-cased';
+    :Arquitectura Encoder-Decoder (mBERT como Encoder);
+    :Configuración de Hiperparámetros (LR, Weight Decay);
+    :Entrenamiento con Cross-Entropy Loss;
+}
+
+partition "Fase V: Evaluacion" {
+    :Cálculo de métricas léxicas (BLEU, ChrF);
+    :Cálculo de BERTScore (Evaluación semántica basada en mBERT);
+    if (¿Se alcanza el umbral de Generalización?) then (No)
+        :Analizar sesgos lingüísticos;
+        detach
+        -> Re-evaluar Prep. de Datos;
+    else (Sí)
+    endif
+}
+
+partition "Fase VI: Despliegue" {
+    :Exportación a ONNX/TensorRT para latencia baja;
+    :Despliegue de Interfaz de Usuario;
+    :Validación por hablantes nativos;
+}
+
+stop
+@enduml
